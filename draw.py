@@ -1,27 +1,28 @@
 import cv2 as cv
-from cv2 import putText
-import numpy as np
 
-blank = np.zeros((500, 500, 3), dtype="uint8")
-cv.imshow("Blank", blank)
+img = cv.imread("Photos/dog1.jpg")
 
-# blank[200:300, 300:400] = 0, 255, 0
-# cv.imshow("Green", blank)
+cv.imshow("Dog", img)
 
-# cv.rectangle(blank, (0, 0),
-#              (blank.shape[1]//2, blank.shape[0]//2), (0, 255, 0), thickness=-1)
-# cv.imshow("rectangle", blank)
+gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+cv.imshow("Gray", gray)
 
-# cv.circle(blank, (blank.shape[1]//2,
-#           blank.shape[0]//2), 40, (0, 0, 255), thickness=3)
-# cv.imshow("Circle", blank)
+blur = cv.GaussianBlur(img, (7, 7), cv.BORDER_DEFAULT)
+cv.imshow("Blur", blur)
 
-# cv.line(blank, (0, 0), (250, 250), (255, 255, 255), thickness=1)
-# cv.imshow("Line", blank)
+canny = cv.Canny(img, 125, 175)
+cv.imshow("Canny", canny)
 
-cv, putText(blank, "Hello World", (255, 255),
-            cv.FONT_HERSHEY_TRIPLEX, 1.0, (0, 0, 255), 2)
-cv.imshow("Text", blank)
+dilate = cv.dilate(canny, (7, 7), iterations=3)
+cv.imshow("DIalated", dilate)
 
+erode = cv.erode(dilate, (3, 3), iterations=1)
+cv.imshow("Erode", erode)
+
+resized = cv.resize(img, (500, 500), interpolation=cv.INTER_AREA)
+cv.imshow("Resize", resized)
+
+cropped = img[50:200, 200:400]
+cv.imshow("Cropped", cropped)
 
 cv.waitKey(0)
